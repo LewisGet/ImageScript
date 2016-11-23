@@ -5,7 +5,7 @@ import get_minecraft_color as mc
 
 # about convert mode
 # http://pillow.readthedocs.io/en/3.1.x/handbook/concepts.html#concept-modes
-img = Image.open("./test.png").convert("RGBA")
+img = Image.open("./test/1.png").convert("RGBA")
 imgArray = np.array(img)
 
 display = []
