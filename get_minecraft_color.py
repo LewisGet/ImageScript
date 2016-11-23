@@ -2,16 +2,6 @@ import PIL.Image as Image
 import numpy as np
 import math
 
-colorPix = 0
-prefix = 0
-
-def getR (color):
-    return color[0]
-def getG (color):
-    return color[1]
-def getB (color):
-    return color[2]
-
 def getImageArray (number):
     colors = []
 
@@ -24,15 +14,18 @@ def getImageArray (number):
 
     colors = np.array(colors)
     rgb = np.mean(colors, axis=0)
+    r, g, b = rgb
 
-    return [int(round(rgb[0])), int(round(rgb[1])), int(round(rgb[2]))]
+    return [int(round(r)), int(round(g)), int(round(b))]
 
-colors = []
+def getItemColors():
+    colorsDataset = [[35,0], [35,1], [35,2], [35,3], [35,4], [35,5], [35,6], [35,7], [159,0], [159,1], [159,2], [159,3], [159,4], [159,5], [159,6], [159,7], [35,8], [35,9], [35,10], [35,11], [35,12], [35,13], [35,14], [35,15], [159,8], [159,9], [159,10], [159,11], [159,12], [159,13], [159,14], [159,15]]
+    colors = [None] * 32
 
-for i in range(32):
-    rgb = getImageArray(str(i + 1))
+    for i in range(32):
+        colors[i] = getImageArray(str(i + 1))
 
-    colors.append(rgb)
+    return [colors, colorsDataset]
 
 def distance (c1, c2):
     (r1,g1,b1) = c1
@@ -57,9 +50,3 @@ def getClosestColor (targetColor, colorList):
             closest_isset = True
 
     return [closest_index, closest_color]
-
-(index, color) = getClosestColor([255, 55, 55], colors)
-
-imageName = index + 1
-
-print(index, imageName, color)
