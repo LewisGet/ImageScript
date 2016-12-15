@@ -26,7 +26,7 @@ class imageCommander:
         return (rgba[3] > 200)
 
     def unVisible (self, rgba):
-        return self.isVisible(rgba)
+        return not self.isVisible(rgba)
 
     def isBorder (self, x, y):
         return (
@@ -40,14 +40,14 @@ class imageCommander:
         if (self.isBorder(x, y)):
             return True
 
-        up, down = self.isVisible(self.imageArray[x][y - 1]), self.isVisible(self.imageArray[x][y + 1])
-        left, right = self.isVisible(self.imageArray[x - 1][y]), self.isVisible(self.imageArray[x + 1][y])
+        up, down = self.unVisible(self.imageArray[x][y - 1]), self.unVisible(self.imageArray[x][y + 1])
+        left, right = self.unVisible(self.imageArray[x - 1][y]), self.unVisible(self.imageArray[x + 1][y])
 
         return (up or down or left or right)
 
     def sortContour (self):
         def dec(data):
-            return ((data[0] ** 2) + (data[1] ** 2) + (data[3][0] ** 2) + (data[3][1] ** 2)) ** (1/2)
+            return ((data[0] ** 2) + (data[1] ** 2) + (data[2][0] ** 2) + (data[2][1] ** 3)) ** (1/2)
 
         self.contour = sort(my_list_of_objects, key=dec)
 
@@ -70,4 +70,4 @@ class imageCommander:
         return self.colorDataset[closest_index]
 
     def getCommand (self, dataset):
-        pass
+        return "builder.builder.buildBlock(" + str(dataset[0]) + ", " + str(dataset[1]) + ", " + str(dataset[2][0])  + ", " + str(dataset[2][1]) + ");"
