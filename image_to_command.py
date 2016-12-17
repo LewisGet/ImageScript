@@ -47,7 +47,7 @@ class imageCommander:
 
     def sortContour (self):
         def dec(data):
-            return ((data[0] ** 2) + (data[1] ** 2) + (data[2][0] ** 2) + (data[2][1] ** 3)) ** (1/2)
+            return ((data[0] ** 2) + (data[1] ** 2) + ((data[2][0] + 100) ** 2) + ((data[2][1] + 100) ** 2)) ** (1/2)
 
         self.contour = sort(my_list_of_objects, key=dec)
 
@@ -69,5 +69,8 @@ class imageCommander:
 
         return self.colorDataset[closest_index]
 
-    def getCommand (self, dataset):
+    def getBuildCommand (self, dataset):
         return "builder.builder.buildBlock(" + str(dataset[0]) + ", " + str(dataset[1]) + ", " + str(dataset[2][0])  + ", " + str(dataset[2][1]) + ");"
+
+    def getCountingCommand (self, a, b):
+        return "builder.builder.countingBlock(" + str(a[0]) + ", " + str(a[1]) + ", "  + str(b[0]) + ", " + str(b[1]) + ");"
