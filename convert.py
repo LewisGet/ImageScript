@@ -7,7 +7,16 @@ class text_to_python:
         self.action = action
 
     def read_file (self):
-        return open(self.logs_file, "r")
+        logs = open(self.logs_file, "r")
+        value = []
+
+        for line in logs:
+            lineContent = line.rstrip()
+
+            if (lineContent):
+                value.append(lineContent)
+
+        return value
 
     def write_file (self, content):
         text_file = open(self.output_file, "w")
@@ -19,12 +28,20 @@ class text_to_python:
         text_file.write(content + "\r\n")
         text_file.close()
 
-    def logs_line_to_variable (self, lines, contnet):
-        return self.action + "[" + str(lines) + "] = " + str(contnet)
+    def logs_variable_init (self):
+        return self.action + " = []"
+
+    def logs_line_to_variable (self, contnet):
+        return self.action + ".append(" + str(contnet) + ")"
 
     def save_variable (self):
-        for index, line in enumerate(self.read_file()):
-            code = self.logs_line_to_variable(index, line)
+        logs = self.read_file()
+
+        code = self.logs_variable_init()
+        self.file_append(code)
+
+        for line in logs:
+            code = self.logs_line_to_variable(line)
             self.file_append(code)
 
 actions = [
