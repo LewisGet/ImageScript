@@ -56,7 +56,7 @@ action_look_at = [2, 4, 6, 8]
 
 action_number = [1, 2, 3]
 
-save_file = "taring_data.py"
+save_file = "training_data.py"
 
 for dir_name in action_look_at:
     for file_prefix in actions:
