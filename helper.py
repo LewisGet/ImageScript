@@ -114,3 +114,19 @@ class training_data:
             value.append(self.actions[fps])
 
         return value
+
+    def get_start_half_sec_fps (self):
+        value = []
+
+        for fps in range(0, 15):
+            value.append(self.actions[fps])
+
+        return value
+
+    def get_end_half_sec_fps (self):
+        value = []
+
+        for fps in range(len(self.actions) - 16, len(self.actions) - 1):
+            value.append(self.actions[fps])
+
+        return value
