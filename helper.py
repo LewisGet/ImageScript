@@ -6,10 +6,10 @@ class xyz:
     def __init__ (self, value):
         valueType = type(value)
 
-        if valueType is dict:
+        if valueType == dict:
             self.x, self.y, self.z = [value['x'], value['y'], value['z']]
-        elif (valueType is list) or (valueType.__module__ is np.__name__):
-            self.x, self.y, self.z = value
+        elif (valueType == list) or (valueType.__module__ == np.__name__):
+            self.x, self.y, self.z = value[0], value[1], value[2]
         else:
             self.x, self.y, self.z = [value.x, value.y, value.z]
 
@@ -57,7 +57,7 @@ class training_data:
         return xyz(self.actions[fps]['location'])
 
     def get_fps_location_array (self, fps):
-        return self.get_fps_location().toArray()
+        return self.get_fps_location(fps).toArray()
 
     def get_fps_block (self, fps):
         return xyz(self.actions[fps]['block'])
@@ -71,7 +71,7 @@ class training_data:
         return xyz(self.actions[fps]['blockLocation'])
 
     def get_fps_block_location_array (self, fps):
-        return self.get_fps_block_location().toArray()
+        return self.get_fps_block_location(fps).toArray()
 
     def set_fps_direction (self, fps, value):
         self.actions[fps]['direction'] = xyz(value)
@@ -82,10 +82,10 @@ class training_data:
         return xyz(self.actions[fps]['direction'])
 
     def get_fps_direction_array (self, fps):
-        return self.get_fps_direction().toArray()
+        return self.get_fps_direction(fps).toArray()
 
     def get_first_place (self):
-        if self.first_place_fps not None
+        if self.first_place_fps is not None:
             return self.first_place_fps, self.first_place_location, self.first_place_location_array
         
         for fps, frame in enumerate(self.actions):
@@ -96,7 +96,7 @@ class training_data:
         return [None] * 3
 
     def get_last_place (self):
-        if self.last_place_fps not None
+        if self.last_place_fps is not None:
             return self.last_place_fps, self.last_place_location, self.last_place_location_array
         
         for fps, frame in enumerate(self.actions_reverse):
@@ -153,7 +153,7 @@ class training_correct:
             location = (self.dataset.get_fps_location_array(fps)) + xyz
             self.dataset.set_fps_location(fps, location)
 
-            if (self.dataset.get_fps_block(fps) not 0):
+            if (self.dataset.get_fps_block(fps) is not 0):
                 block_location = (self.dataset.get_fps_block_location_array(fps)) + xyz
                 self.dataset.set_fps_block_location(fps, block_location)
 
