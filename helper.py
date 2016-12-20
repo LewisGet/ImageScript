@@ -37,6 +37,17 @@ class training_data:
         self.actions_reverse = actions[:]
         self.actions_reverse.reverse()
 
+    def flush_actions (self):
+        self.actions_reverse = []
+        self.first_place_fps = None
+        self.first_place_location = None
+        self.first_place_location_array = None
+        self.last_place_fps = None
+        self.last_place_location = None
+        self.last_place_location_array = None
+        self.actions_reverse = actions[:]
+        self.actions_reverse.reverse()
+
     def set_fps_location (self, fps, value):
         self.actions[fps]['location'] = xyz(value)
 
@@ -130,3 +141,42 @@ class training_data:
             value.append(self.actions[fps])
 
         return value
+
+class training_correct:
+    dataset = []
+
+    def __init__ (self, actions):
+        self.dataset = training_data(actions)
+
+    def correct_location (self, xyz):
+        for fps, frame in enumerate(self.dataset.actions):
+            location = (self.dataset.get_fps_location_array(fps)) + xyz
+            self.dataset.set_fps_location(fps, location)
+
+            if (self.dataset.get_fps_block(fps) not 0):
+                block_location = (self.dataset.get_fps_block_location_array(fps)) + xyz
+                self.dataset.set_fps_block_location(fps, block_location)
+
+        self.dataset.flush_actions()
+
+    def merge_last_actions_from_start (self, last_actions):
+        total_fps = len(last_actions)
+        weghit_fps = 100 / total_fps
+        last_actions = training_data(last_actions)
+
+        for fps, frame in enumerate(last_actions.actions):
+            last_biases, this_biases = total_fps - fps, fps
+            last_weghit, this_weghit = last_biases * weghit_fps, this_biases * weghit_fps
+
+            last_location = last_actions.actions.get_fps_location_array(fps) * last_weghit
+            this_location = self.dataset.actions.get_fps_location_array(fps) * this_weghit
+            new_location = last_location + this_location
+
+            last_direction = last_actions.actions.get_fps_direction_array(fps) * last_weghit
+            this_direction = self.dataset.actions.get_fps_direction_array(fps) * this_weghit
+            new_direction = last_direction + this_direction
+
+            self.dataset.actions.set_fps_location(new_location)
+            self.dataset.actions.set_fps_direction(new_direction)
+
+        self.dataset.flush_actions()
