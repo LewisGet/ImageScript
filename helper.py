@@ -162,6 +162,7 @@ class training_data:
 
         return end_fps, value
 
+# 僅作單一動作修正
 class training_correct:
     dataset = []
 
@@ -200,3 +201,27 @@ class training_correct:
             self.dataset.set_fps_direction(fps, new_direction)
 
         self.dataset.flush_actions()
+
+    # 表演性質動作，會需要依照開始到結束位置來做比例調整
+    def correct_location_by_start_end (self):
+        pass
+
+# 做兩個動作的呼叫修正然後合併產出
+class training_correct_merge:
+    action_a, action_b, action_c = [], [], []
+
+    # 合併執行性質動作到表演性質動作
+    def merge_execute_start_demo_end (self):
+        pass
+
+    # 合併表演性質動作到執行性質動作
+    def merge_demo_start_execute_end (self):
+        pass
+
+    # 合併兩個皆為表演性質的動作
+    def merge_both_demo_action (self, demo_action):
+        pass
+
+    # 合併都是執行動作
+    def merge_both_execute_action (self, execute_action):
+        pass
