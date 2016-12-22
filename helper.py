@@ -203,7 +203,7 @@ class training_correct:
         self.dataset.flush_actions()
 
     # 表演性質動作，會需要依照開始到結束位置來做比例調整
-    def correct_location_by_start_end (self):
+    def correct_location_by_start_end (self, a, b):
         pass
 
 # 做兩個動作的呼叫修正然後合併產出
@@ -219,9 +219,9 @@ class training_correct_merge:
         pass
 
     # 合併兩個皆為表演性質的動作
-    def merge_both_demo_action (self, demo_action):
+    def merge_both_demo_action (self):
         pass
 
     # 合併都是執行動作
-    def merge_both_execute_action (self, execute_action):
+    def merge_both_execute_action (self):
         pass
